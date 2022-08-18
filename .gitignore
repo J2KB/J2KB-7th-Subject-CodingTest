@@ -472,3 +472,9 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/intellij,vs
 
 .DS_Store
+
+# Eclipse Core
+.project
+
+# JDT-specific
+.classpath
