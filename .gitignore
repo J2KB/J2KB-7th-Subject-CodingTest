@@ -26,6 +26,7 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/**/profiles_settings.xml
 
 # Gradle
 .idea/**/gradle.xml
@@ -472,3 +473,9 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/intellij,vs
 
 .DS_Store
+
+# Eclipse Core
+.project
+
+# JDT-specific
+.classpath
