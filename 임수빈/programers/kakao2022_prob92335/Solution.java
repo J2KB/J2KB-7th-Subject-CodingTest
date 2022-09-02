@@ -1,10 +1,5 @@
 package 임수빈.programers.kakao2022_prob92335;
-// 푸는데 걸린 시간 : 1232
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+// 푸는데 걸린 시간 : 24분 : 훨씬 짧을 수 있었는데..
 
 class Solution {
     public int solution(int n, int k) {
