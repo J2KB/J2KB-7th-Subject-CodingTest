@@ -495,7 +495,6 @@ MigrationBackup/
 .idea/*
 # AWS User-specific
 .idea/**/aws.xml
-.KwonJoonhyeok
 
 # Generated files
 .idea/**/contentModel.xml
