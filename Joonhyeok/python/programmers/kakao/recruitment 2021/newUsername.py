@@ -4,39 +4,26 @@ def solution(new_id):
                       '9'}
     new_id = new_id.lower()
     dot_cnt = 0
-    loop = len(new_id)
-    for i in range(loop):
-        if new_id[i] in set_of_allowed:
-            if new_id[i] == '.':
+    result = ''
+
+    for character in new_id:
+        if character in set_of_allowed:
+            if character == '.':
                 dot_cnt += 1
-                if dot_cnt == 2:
-                    new_id.replace('..', '.')
-                    i -= 1
-                    loop = len(new_id)
-                    continue
-                else:
-                    continue
+            elif dot_cnt >= 1:
+                result += f'.{character}'
+                dot_cnt = 0
             else:
-                if dot_cnt == 1:
-                    dot_cnt == 0
-                    continue
-            print(new_id)
+                result += character
 
-        else:
-            new_id = new_id.replace(new_id[i], '*', 1)
-            print(new_id)
+    result = result.strip('.')
 
-    new_id = new_id.replace('*', '')
-    new_id = new_id.strip('.')
-    if new_id == '':
-        new_id += 'a'
+    if result == '':
+        result += 'a'
 
-    if len(new_id) > 15:
-        new_id = new_id[:15]
-        new_id = new_id.strip('.')
+    result = result[:15].strip('.')
 
-    while len(new_id) < 3:
-        new_id += new_id[-1]
+    while len(result) < 3:
+        result += result[-1]
 
-    return new_id.strip('.')
-
+    return result
