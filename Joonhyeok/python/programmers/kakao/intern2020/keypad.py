@@ -1,31 +1,39 @@
 def solution(numbers, hand):
-    leftOnly = [1, 4, 7, '*']
-    rightOnly = [3, 6, 9, '#']
+    left_only = [1, 4, 7, '*']
+    right_only = [3, 6, 9, '#']
     centre = [2, 5, 8, 0]
 
     left_status = '*'
     right_status = '#'
+    left_distance = 0
+    right_distance = 0
 
     answer = ''
 
     for n in numbers:
-        if n in leftOnly:
+        if n in left_only:
             left_status = n
             answer += 'L'
-        elif n in rightOnly:
+
+        elif n in right_only:
             right_status = n
             answer += 'R'
+
         elif n in centre:
-            if left_status in leftOnly:
-                left_distance = abs(leftOnly.index(left_status) - centre.index(n))
-            elif left_status in centre:
+            # if thumb is not on the centre, distance 1 must be plus
+            if left_status in left_only:
+                left_distance = abs(left_only.index(left_status) - centre.index(n)) + 1
+            # the case when thumb is on the centre
+            else:
                 left_distance = abs(centre.index(left_status) - centre.index(n))
 
-            if right_status in rightOnly:
-                right_distance = abs(rightOnly.index(right_status) - centre.index(n))
-            elif right_status in centre:
+            # right side case
+            if right_status in right_only:
+                right_distance = abs(right_only.index(right_status) - centre.index(n)) + 1
+            else:
                 right_distance = abs(centre.index(right_status) - centre.index(n))
 
+            # check the hand when each distance is same
             if left_distance == right_distance:
                 if hand == "left":
                     left_status = n
@@ -34,10 +42,16 @@ def solution(numbers, hand):
                     right_status = n
                     answer += 'R'
 
+            # different distances
             elif left_distance < right_distance:
+                left_status = n
                 answer += 'L'
 
             else:
+                right_status = n
                 answer += 'R'
 
     return answer
+
+
+print(solution([1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5], "right"))
