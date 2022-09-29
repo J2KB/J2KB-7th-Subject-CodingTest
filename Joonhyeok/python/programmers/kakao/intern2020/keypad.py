@@ -5,8 +5,6 @@ def solution(numbers, hand):
 
     left_status = '*'
     right_status = '#'
-    left_distance = 0
-    right_distance = 0
 
     answer = ''
 
@@ -52,6 +50,3 @@ def solution(numbers, hand):
                 answer += 'R'
 
     return answer
-
-
-print(solution([1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5], "right"))
