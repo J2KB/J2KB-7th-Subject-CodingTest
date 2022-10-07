@@ -1,6 +1,7 @@
 package 임수빈.programers.prob42860;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class Solution {
@@ -11,52 +12,74 @@ class Solution {
             now[i]='A';
         }
         char[] dest = name.toCharArray();
-        int answer = 0;
-        if(now[0]!=dest[0]){
-            answer+=calc(dest[0]);
-            now[0]=dest[0];
+        boolean[] needChange = new boolean[size];
+        for (int i = 0; i < size; i++) {
+            if(now[i]!=dest[i])needChange[i]=true;
         }
-        int nowIndex = 0;
-        while (!new String(now).contentEquals(new String(dest))){
-            int[] indexValue = next(nowIndex,now,dest);
-            nowIndex = indexValue[0];
-            answer+=indexValue[1];
-            answer+=calc(dest[nowIndex]);
+        int a = 0;
+        if(needChange[0]){
+            a = calc(dest[0]);
+            needChange[0]=false;
         }
-        return answer;
+        return a+fun(0,needChange,dest);
+    }
+
+    private int fun(int now, boolean[] needChange,char[] dest){
+        boolean[] needChangeLeft = needChange.clone();
+        boolean[] needChangeRight = needChange.clone();
+        int count=0;
+        for (boolean b : needChange) {
+            if(b){
+                count++;
+                break;
+            }
+        }
+        if (count==0)return 0;
+
+        int leftCount =0;
+        int i = now;
+        for (;;) {
+            if(i==0){
+                leftCount++;
+                i = needChangeLeft.length-1;
+            }else {
+                leftCount++;
+                i--;
+            }
+            if(needChange[i]){
+                leftCount += calc(dest[i]);
+                needChangeLeft[i]=false;
+                break;
+            }
+        }
+        int goLeft = leftCount + fun(i,needChangeLeft.clone(),dest);
+        i = now;
+        int rightCount =0;
+        if(needChange[now] && now==0){
+            rightCount += calc(dest[0]);
+            needChange[now] = false;
+        }
+        for (;;) {
+            if(i==needChange.length-1){
+                rightCount++;
+                i = 0;
+            }else {
+                rightCount++;
+                i++;
+            }
+            if(needChange[i]){
+                rightCount += calc(dest[i]);
+                needChangeRight[i]=false;
+                break;
+            }
+        }
+        int goRight = rightCount + fun(i,needChangeRight.clone(),dest);
+        return Math.min(goRight,goLeft);
     }
     private int calc(char target){
         int dif = target - 'A';
         if(dif > 13) return 26-dif;
         else return dif;
-    }
-    private int[] next(int nowIndex, char[] now,char[] dest){ // 반환한 배열의 첫번째 값은 다음 인덱스, 두번재 값은 그리로 가는데 움직인 횟수
-        ArrayList<Integer> needChangeIndex = new ArrayList<>();
-        for (int i = 0; i < now.length; i++) {
-            if(now[i]!=dest[i])needChangeIndex.add(i);
-        }
-        int nextIndex = nowIndex;
-        int min = Integer.MAX_VALUE;
-        for (int index : needChangeIndex) {
-            int dif = index - nowIndex;
-            if(dif<0){ // 왼쪽에 있음
-                if(-dif>now.length/2){ // 오른쪽으로 가는게 빠름
-                    dif = now.length + dif; // dif 가 음수이므로 더함
-                }else { // 왼쪽으로 가는게 빠름
-                    dif = -dif; // 부호 바꾸기
-                }
-            }else {//오른쪽에 있음
-                if(dif>now.length/2){
-                    dif = now.length - dif;
-                }
-            }
-            if(min>dif){
-                nextIndex = index;
-                min = dif;
-            }
-        }
-        now[nextIndex] = dest[nextIndex];
-        return new int[]{nextIndex,min};
     }
 }
 // 1 2 [3] 4 5 6 7 8
